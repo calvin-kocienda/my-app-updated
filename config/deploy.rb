@@ -2,7 +2,7 @@
 lock "~> 3.16.0"
 
 set :application, "myapp"
-#set :repo_url, "git@example.com:me/my_repo.git"
+set :repo_url, "https://github.com/wayd-app/myapp.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
