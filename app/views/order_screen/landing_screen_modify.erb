@@ -1,0 +1,58 @@
+<style>
+
+<!-- sans serif -->
+td {
+  text-align: center;
+  font-family:arial;
+}
+
+table {
+  border-spacing: 50px;
+  font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+
+.column-pic {
+  float: left;
+  width: 32%;
+  padding: 20px;
+}
+
+.column-text{
+  float: left;
+  width: 32.5%;
+  padding: 5px;
+  font-family:arial;
+
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+  font-family:arial;
+</style>
+
+
+<% content_for :content do %>
+<div class="row">
+  <div class="column">
+    <a href='/modify'><img src="http://placehold.it/350x150" /></a>
+  </div>
+  <div class="column">
+    <a href='/past_orders_aggregate'><img src="http://placehold.it/350x150" /></a>
+  </div>
+</div>
+	<div class="row">
+		<div class="column-text">
+			<h3>Modify Database </h3>
+		</div>
+		<div class="column-text">
+			<h3>Approve Users</h3>
+		</div>
+	</div>
+
+<% end %>

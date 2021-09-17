@@ -1,0 +1,142 @@
+<style>
+
+<!-- sans serif -->
+
+body{
+        font-family:arial;
+}
+
+td {
+  text-align: center;
+  font-family:arial;
+
+}
+
+table {
+  border-spacing: 60px;
+  font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+body{
+
+}
+
+.hide{
+        display: none
+}
+body{
+
+}
+.block1{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+}
+
+.block2{
+  margin: 0;
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align:center;
+
+}
+
+
+.block3{
+
+  margin: 0;
+  position: absolute;
+
+  top: 75%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+}
+
+@media screen and (max-width:499px){
+.content11{
+  position: absolute;
+  width: 300px;
+  height: 100px;
+  z-index: 15;
+  top: 20%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
+}
+
+.pic{
+  width:150px;
+  height:112px;
+}
+
+}
+
+@media screen and (min-width:500px){
+.content11{
+  position: absolute;
+  width: 300px;
+  height: 100px;
+  z-index: 15;
+  top: 17%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
+}
+.pic{
+  width:300px;
+  height:225px;
+}
+
+}
+
+</style>
+
+<% content_for :content do %>
+
+<div class="content11" >
+<h1 align=center>Login</h1>
+<img src = "https://www.teraneo.eu/sites/teraneo.eu/files/styles/large/public/field/news/image/fruits_union_0.jpg?itok=iZS7DfQI" alt="fruitsunion", class="pic">
+</div>
+
+
+<div class="block1">
+ <%= form_tag '/login' do %>
+   <%= text_field_tag :username, nil, placeholder:"Username" %><br /><br />
+   <%= password_field_tag :password, nil, placeholder:"Password"%>
+
+</div>
+
+
+<div class="block2">
+<%= flash[:notice] %>
+</div>
+
+
+
+<div class="block3">
+   <%= submit_tag "Login", class:"btn-primary"%>
+   <%end%>
+   <br></br>
+   <%= button_to " Back ", '/welcome', method: :get, class: "btn-primary"%>
+
+
+</div>
+
+<% end %>
+
+<br></br>
+
+
+
+<br></br>
+
+

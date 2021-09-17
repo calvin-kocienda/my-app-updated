@@ -1,0 +1,88 @@
+<style>
+
+td {
+  text-align: center;
+  font-family:arial;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 70px;
+	font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+
+.column-pic {
+  float: left;
+  width: 32%;
+  padding: 20px;
+}
+
+.column-text{
+  float: left;
+  width: 32.5%;
+  padding: 5px;
+  font-family:arial;
+  border-style: dotted;
+
+}
+#menu-container {
+	background: gray;
+	border-radius: 0;
+	display: inline-block;
+	width:100%;
+	margin:0px;
+}
+
+.menu-left ul {
+	margin: 0;
+	padding:0;
+	font-size: 17px; 
+    width: 100%;
+}
+.menu-left ul li {
+	display:inline-block;
+	width: 5%;
+	padding: 5px;
+}
+
+
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+  font-family:arial;
+  
+
+}
+
+
+
+</style>
+
+<% content_for :content do %>
+
+	<%= form_with model:@message, local:true do |ff| %>
+		<%= ff.text_field :title, placeholder: "Title" %><br>
+		<%= ff.text_area :content %><br><br>
+	
+		<%= ff.file_field :images, multiple: true, accept: 'image/png, image/gif, image/jpeg' %>
+		<%= ff.submit %>
+	<% end %>
+
+
+<% end %>
+
+

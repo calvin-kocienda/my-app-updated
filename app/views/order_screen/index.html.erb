@@ -1,0 +1,212 @@
+<style>
+
+
+
+table {
+  border-spacing: 60px;
+  font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+
+* {
+  box-sizing: border-box;
+  font-family:arial;
+}
+
+.column {
+  float: left;
+  width: 50%;
+  padding: 5px;
+  font-family:arial;
+}
+.column-pic {
+  float: left;
+  width: 32%;
+  padding: 20px;
+}
+.column-text{
+  float: left;
+  width: 32.5%;
+  padding: 5px;
+  font-family:arial;
+
+}
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+  font-family:arial;
+}
+@media only screen and (max-width:480px){
+ body{
+   zoom:45%;
+   font-size:small;
+ }
+ header{
+   font-size:small;
+ }
+ .space{
+  height:25px;
+ }
+}
+ .container-standard{
+  height: 125px;
+  position: relative;
+ }
+
+</style>
+
+<% content_for :content do %>
+
+ <header>
+
+<nav class="navbar navbar-dark  navbar-expand-md" style="position:fixed; width: 100%;">
+	
+    <div class="container">
+	<h2 style="color:white; ">Sort By:</h2>
+        </button> <%= link_to "All", "#{'/order_screen'}?sort=All", class: 'navbar-brand' %>
+		</button><%= link_to 'Fruit', "#{'/landing_screen_fruit'}", class: 'navbar-brand' %>
+        </button><%= link_to 'Vegetable', "#{'/landing_screen_vegetable'}", class: 'navbar-brand' %>
+		</button><%= link_to 'Other', "#{'/landing_screen_other'}", class: 'navbar-brand' %>
+    </div>
+</nav>
+
+ </header>
+ 
+
+<div class="non-display">
+</div>
+
+
+<div class="non-display">
+</div>
+<div>
+ <%= form_with url: '/search', method: :get do |form| %>
+                <%= form.search_field :search, placeholder: "Search", params:{sort:session[:current_sort]} %>
+<% end %>
+</div>
+
+
+<% unless (current_user.isadmin == 0) %>
+
+
+<br/>
+
+
+
+<%end%>
+  <div>
+	<%= flash[:error] %>
+  </div>
+<br></br>
+
+<%= form_with url: '/order_screen', method: :get do |form| %>
+<table class="center">
+<tr>
+<th>Company</th>
+<th class="th-center">Food</th>
+<th>Price</th>
+<th>Stock</th>
+<th> Amount </th>
+
+
+</tr>
+
+<!-- (f.china = 0 && @doeschinadisplay) || (f.china = 1)) -->
+
+<% @fooditems.order("price2 desc").each do |f| %>
+  <tr>
+  	<!--<% unless (f.china == 0 && !@doeschinadisplay) || (!f.show)  %>-->
+	<td><%= f.company %></td>
+    <td><%=  f.item %></td>
+	<td><%=  f.price2.to_s.split('.').last.size <= 1 ? "$" + f.price2.to_s + "0" : "$" + f.price2.to_s %></td>
+	<td><%= f.count %></td>
+	<td><%= form.number_field "add_to_cart:"+f.id.to_s, value: calculate_value_of_num_field(f.id), multiple: true, min: 0, style:"width:75px;" %></td>
+	<td><%= button_to '+', '/order_screen', params:{plus_one: f.id, sort:session[:current_sort]}, multiple: true, method: :get, class:"btn-primary-for-catalogue"%></td>
+	<%end %>
+  </tr>
+ <!-- <% end %> -->
+
+  </table>
+  <br/>
+	<div>
+	<%= form.submit 'Add to cart', class:"btn-primary"%>
+	<% end %>
+	</div>
+
+<br></br>
+
+
+<% unless @foodincart.where(userid: @userid).count == 0 %>
+<hr>
+
+<table align=center>
+<tr>
+<th>Item Name:</th>
+<th>Count:</th>
+<th>Price Per Item:</th>
+
+</tr>
+
+
+<h2 align=center>Cart</h2>
+<% @foodincart.where(userid: @userid).each do |f| %>
+  <tr>
+	<td><%= f.itemname %></td>
+	<td><%= f.itemcount %></td>
+	<td><%= f.price.to_s.split('.').last.size <= 1 ? "$" + f.price.to_s + "0" : "$" + f.price.to_s %></td>
+  </tr>
+  <% end %>
+  
+  </table>
+
+
+<div>
+Total price: <%= @totalprice.to_s.split('.').last.size <= 1 ? "$" + @totalprice.to_s + "0" : "$" + @totalprice.to_s %>
+</div>
+
+
+
+<hr>
+<% end %>
+<br></br>
+<div>
+
+<% unless @foodincart.where(userid: @userid).count == 0 %>
+<%= button_to 'Empty Cart', '/order_screen', params:{i:"empty", sort:session[:current_sort]}, method: :get, class:"btn-primary" %>
+<% end %>
+
+</div>
+
+<!-- Later, change it so that you have only one submit button (fill out how many apples, oranges, etc user wants), then 
+hit one submit button -->
+
+
+<br/>
+<br/>
+
+
+<div class="non-display">
+</div>
+
+<% end %>
+<%= request.query_parameters %>
+
+<div class="non-display">
+</div>
+
+<nav class="navbar navbar-dark navbar-expand-md" style=" position:fixed; bottom:0; width: 100%;">
+    <div class="container">
+	          
+          	</button> <%= link_to "Home", root_path, class: 'navbar-brand' %>
+		</button><%= link_to 'Cart(' + @num_items_in_cart.to_s + ')', '/cart', params:{sort:session[:current_sort]},class: 'navbar-brand' %>
+		</button><%= link_to 'Checkout', "/checkout", class: 'navbar-brand' %>
+		</button><%= link_to 'Help', '/faq', class: 'navbar-brand' %>
+		</button><%= link_to 'Logout', '/logout', class: 'navbar-brand' %>
+
+    </div>
+</nav>

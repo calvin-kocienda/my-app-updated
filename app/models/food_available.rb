@@ -1,0 +1,5 @@
+class FoodAvailable < ApplicationRecord
+	
+
+
+end

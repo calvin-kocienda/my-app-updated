@@ -1,0 +1,54 @@
+
+<style>
+
+<!-- sans serif -->
+
+
+td {
+  text-align: center;
+  font-family:arial;
+  
+}
+
+table {
+  border-spacing: 10px;
+  font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+
+
+.hide{
+	display: none
+}
+
+</style>
+
+<% content_for :content do %>
+<div class="non-display">
+</div>
+	<table class="center">
+		<th>Username</th>
+		<th>Approve User</th>
+		<th>Deny User</th>
+		
+		<% @users.each do |f| %>
+			<tr>
+				<td><%= f.username %></td>
+				<td><%= button_to 'Approve', '/approve_users', params:{approve: f.id}, method: :get, class:"btn-primary", notice: "Test"%></td>
+				<td><%= button_to 'Deny', '/approve_users', params:{deny: f.id}, method: :get, class:"btn-primary"%></td>
+			</tr>
+		<% end %>
+	</table>
+<div align=center>
+<%= flash[:approve_user_flash] %>
+</div>
+<br/>
+<br/>
+<div align=center>
+<%= button_to "Back", '/landing_screen_modify', method: :get, class:"btn-primary"%>
+</div>
+
+<% end %>

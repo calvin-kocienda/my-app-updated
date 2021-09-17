@@ -1,0 +1,91 @@
+<style>
+
+@media only screen and (max-width: 479px){
+.child {
+  position: absolute;
+  left: 25%;
+}
+
+.child-1 {
+  top: 200%;
+}
+
+.child-2 {
+  top: 350%;
+}
+.child-3{
+  top:1000%;
+}
+.parent {
+  position: relative;
+  top:25%;
+}
+.space{
+ height:50px;
+}
+}
+@media only screen and  (min-width:480px){
+.child{
+ position:absolute;
+ left:46%;
+
+}
+.child-1{
+ top:300%;
+}
+.child-2{
+ top:350%;
+}
+.child-3{
+ top:900%;
+}
+.parent{
+ position:relative;
+ top:100%;
+}
+.space{
+ height:200px;
+}
+
+
+}
+</style>
+
+<% content_for :content do %>
+
+<div class="space">
+</div>
+
+<div class="parent">
+  <h1 align=center>Sign Up </h1>
+  <div class="child child-1">
+
+
+<img src = "https://www.teraneo.eu/sites/teraneo.eu/files/styles/large/public/field/news/image/fruits_union_0.jpg?itok=iZS7DfQI" alt="fruitsunion",style:"width:300px; height=225px;">
+
+  </div>
+ <div class="child child2">
+ </div>
+
+  <div class="child child-3">
+   <%= form_for @user do |f| %>
+    <%= f.label :username %><br>
+    <%= f.text_field :username%> <br>
+    <%= f.label :password %><br>
+    <%= f.password_field :password%><br><br>
+    What companies are you affiliated with?<br/><br>
+    <%= fields_for(@company_to_user) do |ff| %>
+    <%= collection_select(:companies, :id, @all_companies, :id, :companyname, {}, {:multiple => true}) %>
+	<br/>
+	<br/>
+	<%= f.submit "Submit ", class:"btn-primary" %>
+   <% end %>
+   <% end %>
+  <br></br>
+ <%= button_to "  Back  ", '/welcome', method: :get, class:"btn-primary"%>
+<div class="non-display">
+</div>
+  </div>
+</div>
+
+<% end %>

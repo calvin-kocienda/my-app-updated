@@ -1,0 +1,157 @@
+<style>
+
+
+table {
+  margin-left:auto;
+  margin-right:auto;
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 50%;
+  font-family:arial;
+}
+
+th, .td-non-button {
+  padding: 8px;
+  text-align: center;
+  font-family:arial;
+  border-bottom: 1px solid #ddd;
+}
+
+
+
+div {
+  text-align: center;
+  font-family:arial;
+}
+
+.column-pic {
+  float: left;
+  width: 32%;
+  padding: 20px;
+}
+
+.column-text{
+  float: left;
+  width: 32.5%;
+  padding: 5px;
+  font-family:arial;
+
+}
+
+div.subtotal-data {
+  position: fixed;
+  right: 65.5%;
+
+}
+
+div.cost {
+  position: fixed;
+  right: 32.45%;
+
+}
+
+
+
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+  font-family:arial;
+}
+@media only screen and (max-width:480px){
+ body{
+  zoom:40%;
+
+ }
+ table {
+  margin-left: auto;
+  
+  width: 85%;
+  font-family:arial;
+}
+
+}
+</style>
+<% content_for :content do %>
+	<br/>
+
+	
+<div class="non-display">
+</div>
+
+<div>
+ <h1 style="font-weight:bold;">Shopping Cart </h1>
+</div>
+
+<% unless @foodincart.where(userid: session[:user_id]).count == 0 %>
+<table>
+<tr>
+<th></th>
+<th>Qty</th>
+<th>Price (HKD)</th>
+
+</tr>
+
+<% @foodincart.where(userid: session[:user_id]).each do |f| %>
+  <tr>
+	<td class="td-non-button"><%= f.itemname %></td>
+	<td class="td-non-button"><%= f.itemcount %></td>
+	<td class="td-non-button"><%= (f.price * f.itemcount).to_s.split('.').last.size <= 1 ? "$" + (f.price * f.itemcount).to_s + "0" : "$" + (f.price * f.itemcount).to_s %></td>
+	<td><%= button_to ' X ', '/cart', params:{i:"empty", item:f.id}, method: :get, class:"btn-primary"%></td>
+  </tr>
+  <% end %>
+  <tr>
+	<td class="td-non-button">Subtotal </td>
+	<td ></td>
+	<td class="td-non-button"><%= @totalprice.to_s.split('.').last.size <= 1 ? "$" + @totalprice.to_s + "0" : "$" + @totalprice.to_s %></td>
+  </tr>
+  <tr>
+	<td class="td-non-button">Delivery Fee</td>
+	<td></td>
+	<td class="td-non-button">$1.00</td>
+  </tr>
+  <tr>
+	<td class="td-non-button">Total</td>
+	<td></td>
+	<td class="td-non-button"><%= (@totalprice + 1).to_s.split('.').last.size <= 1 ? "$" + (@totalprice + 1).to_s + "0" : "$" + (@totalprice + 1).to_s %></td></td>
+  </tr>
+  
+  </table>
+
+<br/>
+<br/>
+<br/>
+
+
+<div>
+<%= button_to 'Empty Cart', '/cart', params:{i:"empty", sort:session[:current_sort]}, method: :get, class:"btn-primary" %>
+</div>
+<% end %>
+<% unless @foodincart.where(userid: session[:user_id]).count != 0 %>
+<br/>
+<br/>
+<br/>
+<h3 align=center> No items in cart. </h3>
+
+<% end %>
+<br/>
+<div>
+<%= button_to "Back", session[:history][0], method: :get, class:"btn-primary"%>
+</div>
+<% end %>
+<div class="non-display">
+</div>
+<div class="non-display">
+</div>
+
+<nav class="navbar navbar-dark navbar-expand-md" style=" position:fixed; bottom:0; width: 100%;">
+    <div class="container">
+		</button> <%= link_to "Home", root_path, class: 'navbar-brand' %>
+		</button><%= link_to 'Cart(' + @num_items_in_cart.to_s + ')', '/cart', params:{sort:session[:current_sort]},class: 'navbar-brand' %>
+		</button><%= link_to 'Checkout', "/checkout", class: 'navbar-brand' %>
+		</button><%= link_to 'Help', '/order_screen', class: 'navbar-brand' %>
+		</button><%= link_to 'Logout', '/logout', class: 'navbar-brand' %>
+
+    </div>
+</nav>

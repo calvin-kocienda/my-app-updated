@@ -1,0 +1,85 @@
+<style>
+
+td {
+  text-align: center;
+  font-family:arial;
+}
+
+table {
+  border-spacing: 60px;
+  font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+
+
+</style>
+<% content_for :content do %>
+<div class="jumbotron text-center">
+   <h1 align=center> Checkout </h1>
+</div>
+<br/>
+<table class="center">
+<tr>
+<th>Food:</th>
+<th>Amount in cart:</th>
+<th>Price of each item:</th>
+
+
+</tr>
+
+
+
+<% @foodincart.each do |f| %>
+  <tr>
+    <% if f.itemcount != 0 %>
+		<td><%= f.itemname %></td>
+		<td><%= f.itemcount %></td>
+		<td><%= f.price.to_s.split('.').last.size <= 1 ? "$" + f.price.to_s + "0" : "$" + f.price.to_s %></td>
+	<% end %>
+  </tr>
+  <% end %>
+  </table>
+  
+<br></br>
+<% unless @foodincart.where(userid: session[:user_id]).count == 0 %>
+<div>
+Total price: <%= @totalprice.to_s.split('.').last.size <= 1 ? "$" + @totalprice.to_s + "0" : "$" + @totalprice.to_s %>
+</div>
+<br></br>
+<div>
+
+<div>
+Which company is placing this order?
+<%= form_with url: export_path, method: :get do |form| %>
+<%= form.select "company_order", options_for_select(@companynames) %>
+
+
+</div>
+
+<br></br>
+<%= form.submit "Place Order", class:"btn-primary"  %>
+<% end %>
+<!-- <%= button_to 'Place Order', export_path, method: :get, class:"btn-primary" %> -->
+<br></br>
+<% end %>
+<div>
+<%= button_to 'Back To Store', session[:history][0], method: :get, class:"btn-primary" %>
+</div>
+<% end %>
+
+<nav class="navbar navbar-dark navbar-expand-md" style=" position:fixed; bottom:0; width: 100%;">
+    <div class="container">
+		</button> <%= link_to "Home", root_path, class: 'navbar-brand' %>
+		</button><%= link_to 'Cart(' + @num_items_in_cart.to_s + ')', '/cart', params:{sort:session[:current_sort]},class: 'navbar-brand' %>
+		</button><%= link_to 'Checkout', "/checkout", class: 'navbar-brand' %>
+		</button><%= link_to 'Help', '/faq', class: 'navbar-brand' %>
+		</button><%= link_to 'Logout', '/logout', class: 'navbar-brand' %>
+
+    </div>
+</nav>
+
+<div class="non-display">
+</div>

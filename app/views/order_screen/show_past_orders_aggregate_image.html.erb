@@ -1,0 +1,10 @@
+<% content_for :content do %>
+
+<image src="<%=(url_for(@image.damage_report))%>">
+
+<br><br>
+
+<div align=center>
+<%= button_to "Back", '/past_orders_aggregate', method: :get, class:"btn-primary"%>
+</div>
+<% end %>

@@ -1,0 +1,222 @@
+<style>
+
+td {
+  text-align: center;
+  font-family:arial;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 70px;
+	font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+
+.column-pic {
+  float: left;
+  width: 32%;
+  padding: 20px;
+}
+
+.column-text{
+  float: left;
+  width: 32.5%;
+  padding: 5px;
+  font-family:arial;
+  border-style: dotted;
+
+}
+#menu-container {
+	background: black;
+	border-radius: 0;
+	display: inline-block;
+	width:100%;
+	margin:0px;
+	height:75px;
+}
+
+
+h1,h2{
+	text-align:center;
+	font-family:arial;
+
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+  font-family:arial;
+  
+
+}
+
+span a{
+    display: inline-block;
+    margin: 10px 10px 0 0;
+    padding: 5px 10px
+    
+}
+
+@media only screen and (max-width:480px){
+ body{
+  zoom:40%;
+
+ }
+
+}
+
+</style>
+
+<% content_for :content do %>
+
+<body>
+<nav class="navbar navbar-dark  navbar-expand-md" style="position:fixed; width: 100%;">
+	<div id="menu-container">
+		<span style="align:left;">
+			<a style="font-weight: bold; text-decoration:underline; color:white;" href="">Fruits</a>
+		</span>
+		<span style="align:center;">
+			<a href="/landing_screen_vegetable", style="color:white;">Vegetables</a>
+		</span>
+		<span style="align:right;">
+			<a href="/landing_screen_other", style="color:white;">Other</a>
+		</span>
+    </div>
+
+</nav>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+	<div>
+	 <%= form_with url: '/search', method: :get do |form| %>
+		<%= form.search_field :search, placeholder: "Search...", style:"width:300px;"%>
+
+	<% end %> <!--end of form_with -->
+	</div>
+<br/>
+<br/>
+<br/>
+
+<h1 font-weight: bold align=center>Main Categories</h1>
+
+<hr>
+<div>
+<%= flash[:error] %>
+</div>
+<br/>
+<br/>
+<br/>
+<%= form_with url: '/landing_screen_fruit', method: :get do |form| %>
+<h1 align=center>Fruit</h1>
+<table align="center">
+
+
+<% @fruit.order("price2 desc").each do |f| %>
+  <tr>
+    <td style="font-size:20px"><%=  f.item %></td>
+	<td><%=  f.price2.to_s.split('.').last.size <= 1 ? "$" + f.price2.to_s + "0" : "$" + f.price2.to_s %></td>
+	<td><%= f.count %></td>
+	<td><%= form.number_field "add_to_cart:"+f.id.to_s, multiple: true, min: 0, value: calculate_value_of_num_field(f.id), style:"width:75px;" %></td>
+	<td><%= button_to '+', '/landing_screen_fruit', params:{plus_one: f.id, sort:session[:current_sort]}, multiple: true, method: :get, class:"btn-primary-for-landing"%></td>
+  </tr>
+  <% end %> <!--end of fruit.order -->
+
+</table>
+
+<h1 align=center>Juice</h1>
+<table align="center">
+
+
+<% @juices.order("price2 desc").each do |f| %>
+  <tr>
+    <td style="font-size:20px"><%=  f.item %></td>
+	<td><%=  f.price2.to_s.split('.').last.size <= 1 ? "$" + f.price2.to_s + "0" : "$" + f.price2.to_s %></td>
+	<td><%= f.count %></td>	
+	<td><%= form.number_field "add_to_cart:"+f.id.to_s, multiple: true, min: 0, value: calculate_value_of_num_field(f.id), style:"width:75px;" %></td>
+	<td><%= button_to '+', '/landing_screen_fruit', params:{plus_one: f.id, sort:session[:current_sort]}, multiple: true, method: :get, class:"btn-primary-for-landing"%></td>
+  </tr>
+  <% end %> <!--end of juices.order -->
+
+</table>
+
+<h1 align=center>Other</h1>
+<table align="center">
+
+
+<% @other.order("price2 desc").each do |f| %>
+  <tr>
+    <td style="font-size:20px"><%=  f.item %></td>
+	<td><%=  f.price2.to_s.split('.').last.size <= 1 ? "$" + f.price2.to_s + "0" : "$" + f.price2.to_s %></td>
+	<td><%= f.count %></td>	
+	<td><%= form.number_field "add_to_cart:"+f.id.to_s, multiple: true, min: 0, value: calculate_value_of_num_field(f.id), style:"width:75px;" %></td>
+	<td><%= button_to '+', '/landing_screen_fruit', params:{plus_one: f.id, sort:session[:current_sort]}, multiple: true, method: :get, class:"btn-primary-for-landing"%></td>
+  </tr>
+  <% end %> <!--end of other.order -->
+
+</table>
+
+<div>
+<%= form.submit "Add to cart", class:"btn-primary" %>
+</div>
+<% end %>
+<br/>
+<br/>
+
+<% unless @foodincart.where(userid: session[:user_id]).count == 0 %>
+<table align=center>
+<tr>
+<th>Item Name:</th>
+<th>Count:</th>
+<th>Price Per Item:</th>
+
+</tr>
+
+
+<h2 align=center>Cart</h2>
+<% @foodincart.where(userid: session[:user_id]).each do |f| %>
+  <tr>
+	<td><%= f.itemname %></td>
+	<td><%= f.itemcount %></td>
+	<td><%= f.price.to_s.split('.').last.size <= 1 ? "$" + f.price.to_s + "0" : "$" + f.price.to_s %></td>
+  </tr>
+  <% end %>
+  
+  </table>
+
+
+<div>
+<%= button_to 'Empty Cart', '/landing_screen_fruit', params:{i:"empty"}, method: :get, class:"btn-primary" %>
+</div>
+<% end %>
+
+
+<% end %> <!--end of content_for -->
+
+<div class="non-display">
+</div>
+<div class="non-display">
+</div>
+<nav class="navbar navbar-dark navbar-expand-md" style=" position:fixed; bottom:0; width: 100%;">
+    <div class="container">
+		</button> <%= link_to "Home", root_path, class: 'navbar-brand' %>
+		</button><%= link_to 'Cart(' + @num_items_in_cart.to_s + ')', '/cart', params:{sort:session[:current_sort]},class: 'navbar-brand' %>
+		</button><%= link_to 'Checkout', "/checkout", class: 'navbar-brand' %>
+		</button><%= link_to 'Help', '/faq', class: 'navbar-brand' %>
+		</button><%= link_to 'Logout', '/logout', class: 'navbar-brand' %>
+
+    </div>
+</nav>

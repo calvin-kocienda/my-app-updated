@@ -1,0 +1,99 @@
+<style>
+
+td,th {
+  text-align: center;
+  font-family:arial;
+}
+
+
+table {
+  border-spacing: 60px;
+  font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+
+
+
+
+h3{
+	text-align:center;
+	font-family:arial;
+	font-weight:bold;
+
+}
+@media only screen and (max-width:480px){
+ body{
+   zoom:40%;
+ }
+ .space{
+  height:25px;
+ }
+}
+</style>
+<% content_for :content do %>
+<div class="mini-padding">
+</div>
+<%= form_with url: "/search", method: :get do |form| %>
+<h3 align=center>Search Result</h3>  
+<br/>
+  <div>
+	<%= flash[:error] %>
+  </div>
+ <br/>
+       <div>
+         <%= form_with url: '/search', method: :get do |form| %>
+                <%= form.search_field :search, placeholder:"Search...", style:"width:300px;"%>
+
+        <% end %>
+        </div>
+<br/>
+<table class="center">
+<tr>
+<th>Category</th>
+<th>Item</th>
+<th>Price</th>
+</tr>
+
+    <% @results.each do |f| %>  
+	<tr>
+	  <td> <%= f.category %></td>
+	  <td style="font-size:20px"><%=  f.item %></td>
+	  <td><%=  f.price2.to_s.split('.').last.size <= 1 ? "$" + f.price2.to_s + "0" : "$" + f.price2.to_s %></td>
+	  <td><%= form.number_field "add_to_cart:"+f.id.to_s, multiple: true, value: calculate_value_of_num_field(f.id),  style:"width:75px;" %></td>
+	  <td><%= button_to '+', session[:history][find_store_history_index()], params:{plus_one: f.id, sort:session[:current_sort], search:@parameter}, multiple: true, method: :get, class:"btn-primary"%></td>
+	</tr>
+    <% end %>
+
+</table>
+<div class="mini-padding">
+</div>
+
+<div>
+<%= form.submit "Add to cart", class:"btn-primary" %>
+</div>
+<% end %>
+<div class="mini-padding">
+</div>
+
+<div>
+<%= button_to "Back", session[:history][0], params:{sort:session[:current_sort]}, method: :get, class:"btn-primary"%>
+</div>
+<% end %>
+<div class="non-display">
+</div>
+<div class="non-display">
+</div>
+
+<nav class="navbar navbar-dark navbar-expand-md" style=" position:fixed; bottom:0; width: 100%;">
+    <div class="container">
+		</button> <%= link_to "Home", root_path, class: 'navbar-brand' %>
+		</button><%= link_to 'Cart(' + @num_items_in_cart.to_s + ')', '/cart', params:{sort:session[:current_sort]},class: 'navbar-brand' %>
+		</button><%= link_to 'Checkout', "/checkout", class: 'navbar-brand' %>
+		</button><%= link_to 'Help', '/faq', class: 'navbar-brand' %>
+		</button><%= link_to 'Logout', '/logout', class: 'navbar-brand' %>
+
+    </div>
+</nav>

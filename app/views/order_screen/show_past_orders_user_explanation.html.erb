@@ -1,0 +1,9 @@
+<% content_for :content do %>
+
+<image src="<%=(url_for(@image.explanation))%>">
+<br><br>
+
+<div align=center>
+<%= button_to "Back", '/past_orders_user', method: :get, class:"btn-primary"%>
+</div>
+<% end %>

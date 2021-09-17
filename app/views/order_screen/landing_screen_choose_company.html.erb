@@ -1,0 +1,43 @@
+<style>
+
+td {
+  text-align: center;
+  font-family:arial;
+}
+
+table {
+  border-spacing: 60px;
+  font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+
+
+</style>
+<% content_for :content do %>
+<div class="jumbotron text-center">
+   <h1 align=center> Choose Store </h1>
+</div>
+<br/>
+
+  
+<br/>
+
+
+<div>
+Which company are you shopping for?
+<%= form_with url: '/landing_screen', method: :get do |form| %>
+<%= form.select "current_company", options_for_select(@companynames) %>
+<%= form.submit class:"btn-primary" %>
+<% end %>
+</div>
+
+<br></br>
+
+
+
+<div class="non-display">
+</div>
+<% end %>

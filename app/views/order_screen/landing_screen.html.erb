@@ -1,0 +1,153 @@
+<style>
+
+td {
+  text-align: center;
+  font-family:arial;
+}
+
+table {
+  border-spacing: 50px;
+  font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+
+h1,h2{
+	text-align:center;
+	font-family:arial;
+
+}
+
+.column-pic {
+  float: left;
+  width: 25%;
+  padding: 20px;
+}
+
+.column-text{
+  float: left;
+  width: 25%; 
+  padding: 5px;
+  font-family:arial; 
+  font-size:xx-large;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+  font-family:arial;
+}
+
+@media only screen and (max-width:480px){
+ body{
+   zoom:40%;
+   .pull-right{float:none!important}
+ }
+ .space{
+  height:25px;
+ }
+ .row2{
+  margin-left:auto;
+  margin-right:auto;
+ }
+ .column-text{
+  float: left;
+  width: 25%;
+  padding: 2px;
+  font-family:arial;
+ font-size:small;
+ }
+
+}
+
+
+</style>
+<% content_for :content do %>
+       <div class="space">
+       </div>	
+       <div>
+	 <%= form_with url: '/search', method: :get do |form| %>
+		<%= form.search_field :search, placeholder:"Search...", style:"width:300px;"%>
+
+	<% end %>
+	</div>
+	<hr>
+		<h1>Welcome, <%= current_user.username %>.</h1>
+		<h1>Quick Access:</h1>
+	<hr>
+
+	<div class="row">
+		<div class="column-pic">
+			<a href='/landing_screen_direct_order'><img src="http://placehold.it/350x150" /></a>
+		</div>
+		<div class="column-pic">
+			<a href='/order_screen'><img src="http://placehold.it/350x150" /></a>
+		</div>
+		<div class="column-pic">
+			<a href='/past_orders_user'><img src="http://placehold.it/350x150" /></a>
+		</div>
+                <% unless (current_user.isadmin == 0) %>
+        
+                <div class="column-pic">
+                        <a href='/landing_screen_modify'><img src="http://placehold.it/350x150" /></a>
+                </div>
+       
+		<% end %>
+	</div>
+
+	<div class="row">
+		<div class="column-text">
+			Direct Order 
+		</div>
+		<div class="column-text">
+			Catalogue 
+		</div>
+		<div class="column-text">
+			Order History
+		</div>
+              <% unless (current_user.isadmin == 0) %>
+             <div class="column-text">
+                        Admin Control
+                </div>
+		<% end %> 
+	</div>
+<hr>
+<br/>
+<br/>
+	<div>
+		<h2>Product Baskets: Order by Category </h2>
+	</div>
+
+<br/>
+	<a href= "/landing_screen_fruit"><img src="http://placehold.it/350x150" /></a>
+	<h2 align=center>Fruits</h2>
+	<br/>
+	<a href="/landing_screen_vegetable"><img src="http://placehold.it/350x150" /></a>
+	<h2 align=center>Vegetables</h2>
+	<br/>
+	<a href="/landing_screen_other"><img src="http://placehold.it/350x150" /></a>
+	<h2 align=center>Other</h2>
+	<br/>
+<hr>
+<br/>	
+
+	
+<% end %>
+
+<div class="non-display">
+</div>
+<div class="non-display">
+</div>
+<nav class="navbar navbar-dark navbar-expand-md" style=" position:fixed; bottom:0; width: 100%;">
+    <div class="container">
+		</button> <%= link_to "Home", root_path, class: 'navbar-brand' %>
+		</button><%= link_to 'Cart(' + @num_items_in_cart.to_s + ')', '/cart', params:{sort:session[:current_sort]},class: 'navbar-brand' %>
+		</button><%= link_to 'Checkout', "/checkout", class: 'navbar-brand' %>
+		</button><%= link_to 'Help', '/faq', class: 'navbar-brand' %>
+		</button><%= link_to 'Logout', '/logout', class: 'navbar-brand' %>
+
+    </div>
+</nav>

@@ -1,0 +1,49 @@
+
+
+<style>
+h1 {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+div {
+  text-align: center;
+}
+.center_test {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+  border: 10px solid blue;
+  padding: 100px;
+  
+}
+body{
+
+	font-family:arial;
+}
+
+</style>
+
+<% content_for :content do %>
+    <div class="center_test">
+	
+        <h1>Welcome</h1>
+		<% if logged_in? %>
+			<h1>You are logged in, <%= current_user.username %></h1>
+		<%end%>
+		<br/>
+		<div>
+		<%= button_to "Login", '/login', method: :get, class:"btn-large"%>
+		</div>
+		<br/>
+		<%= button_to "Sign Up", '/users/new', method: :get, class:"btn-large" %>
+    </div>
+	<%= request.query_parameters %>
+<% end %>
+
+
+
+
+

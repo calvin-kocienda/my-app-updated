@@ -1,0 +1,100 @@
+<style>
+
+<!-- sans serif -->
+td {
+  text-align: center;
+  font-family:arial;
+}
+
+table {
+  border-spacing: 50px;
+  font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+
+.column-pic {
+  float: left;
+  width: 40%;
+  padding: 5px;
+}
+
+.column-text{
+  float: left;
+  width: 32.5%;
+  padding: 5px;
+  font-family:arial;
+  font-size:xx-large;
+}
+
+.column {
+  float: left;
+  width: 32.5%;
+  padding: 5px;
+  font-family:arial;
+}
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+  font-family:arial;
+}
+@media only screen and (max-width:480px){
+ body{
+   zoom:50%;
+   .pull-right{float:none!important}
+ }
+ .space{
+  height:25px;
+ }
+ .row2{
+  margin-left:auto;
+  margin-right:auto;
+ }
+ .column-text{
+  float: left;
+  width: 32.5%;
+  padding: 2px;
+  font-family:arial;
+ font-size:small;
+ }
+
+}
+
+</style>
+
+
+<% content_for :content do %>
+<div class="row">
+  <div class="column">
+    <a href='/modify'><img src="http://placehold.it/350x150" /></a>
+  </div>
+  <div class="column">
+    <a href='/approve_users'><img src="http://placehold.it/350x150" /></a>
+  </div>
+    <div class="column">
+    <a href='/past_orders_aggregate'><img src="http://placehold.it/350x150" /></a>
+  </div>
+</div>
+
+	<div class="row">
+		<div class="column-text">
+			Modify Database
+		</div>
+		<div class="column-text">
+			Approve Users
+		</div>
+		<div class="column-text">
+			All Past Orders
+ 		</div>
+	</div>
+<div class="non-display">
+</div>
+<div>
+<%= button_to "Back", '/landing_screen ', params:{sort:session[:current_sort]}, method: :get, class:"btn-primary"%>
+</div>
+
+<% end %>
+

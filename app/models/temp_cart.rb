@@ -1,0 +1,2 @@
+class TempCart < ApplicationRecord
+end

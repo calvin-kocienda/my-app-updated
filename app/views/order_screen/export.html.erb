@@ -1,0 +1,47 @@
+<style>
+
+td {
+  text-align: center;
+  font-family:arial;
+}
+
+table {
+  border-spacing: 60px;
+  font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+@media only screen and (max-width:480px){
+ body{
+  zoom:40%;
+
+ }
+}
+
+</style>
+<% content_for :content do %>
+<div class="jumbotron text-center">
+   <h1 align=center>Thank you for your order! </h1>
+<h3 align=center>Click below to download an invoice of your order. </h3>
+</div>
+
+
+<div>
+<br/>
+<%= button_to 'Download CSV', export_csv_path(format: "csv"), method: :get, class: "btn-primary" %>
+<br></br>
+</div>
+<% end %>
+
+<nav class="navbar navbar-dark navbar-expand-md" style=" position:fixed; bottom:0; width: 100%;">
+    <div class="container">
+		</button> <%= link_to "Home", root_path, class: 'navbar-brand' %>
+		</button><%= link_to 'Cart(' + @num_items_in_cart.to_s + ')', '/cart', params:{sort:session[:current_sort]},class: 'navbar-brand' %>
+		</button><%= link_to 'Checkout', "/checkout", class: 'navbar-brand' %>
+		</button><%= link_to 'Help', '/faq', class: 'navbar-brand' %>
+		</button><%= link_to 'Logout', '/logout', class: 'navbar-brand' %>
+
+    </div>
+</nav>

@@ -1,0 +1,30 @@
+Item,Price,China,Category,Subcategory,Company
+Peach,2,1,Fruit,Fruit,Company A
+Apple Juice,3,1,Fruit,Juice,Company B
+Strawberry,2.5,0,Fruit,Fruit,Company C
+Cod,4,0,Other,Fish,Company D
+Cranberry,0.75,1,Fruit,Fruit,Company E
+Plum,1,1,Fruit,Fruit,Company F
+Salmon,4.5,0,Other,Fish,Company A
+Snapper,5,1,Other,Fish,Company B
+Apple Sauce,3.5,0,Fruit,Other,Company C
+Orange Juice,4,0,Fruit,Juice,Company D
+Cranberry Juice,3,0,Fruit,Juice,Company E
+Key Lime Pie,6,0,Fruit,Other,Company F
+Cucumber,3.75,1,Vegetable,Other,Company A
+Pinto Bean,0.5,1,Vegetable,Legume,Company B
+Snap Peas,0.95,1,Vegetable,Legume,Company C
+Lentils,0.75,0,Vegetable,Legume,Company D
+Potato,2,0,Vegetable,Root,Company E
+Beet,1.5,1,Vegetable,Root,Company F
+Carrot,1.75,1,Vegetable,Root,Company A
+Spinach,2.15,0,Vegetable,Other,Company B
+Eggplant,2.5,0,Vegetable,Other,Company C
+Sprite,3,0,Other,Drink,Company D
+Monster Energy,2.65,0,Other,Drink,Company E
+Budweiser,3.45,0,Other,Drink,Company F
+Snickerdoodle,2.5,0,Other,Cookie,Company A
+Chocolate Chip,2.5,0,Other,Cookie,Company B
+Oatmeal Raisin,2.5,0,Other,Cookie,Company C
+Chocolate Milk,4,0,Other,Drink,Company D
+Pineapple,2.5,0,Fruit,Fruit,Company E

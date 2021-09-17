@@ -1,0 +1,130 @@
+<style>
+
+td {
+  text-align: center;
+  font-family:arial;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 70px;
+	font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+
+.column-pic {
+  float: left;
+  width: 32%;
+  padding: 20px;
+}
+
+.column-text{
+  float: left;
+  width: 32.5%;
+  padding: 5px;
+  font-family:arial;
+  border-style: dotted;
+
+}
+#menu-container {
+	background: gray;
+	border-radius: 0;
+	display: inline-block;
+	width:100%;
+	margin:0px;
+}
+
+.menu-left ul {
+	margin: 0;
+	padding:0;
+	font-size: 17px; 
+    width: 100%;
+}
+.menu-left ul li {
+	display:inline-block;
+	width: 5%;
+	padding: 5px;
+}
+
+
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+  font-family:arial;
+  
+
+}
+
+
+
+</style>
+
+<% content_for :content do %>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+
+
+<%= form_with url: '/test', method: :get do |form| %>
+
+<table class="center">
+<tr>
+<th>ID</th>
+<th>Company</th>
+<th class="th-phone">Time Added To Stock </th>
+<th class="th-center">Food</th>
+<th>Price</th>
+
+<th class="th-phone">Category</th>
+<th class="th-phone">Subcategory</th>
+<th> Amount </th>
+
+
+</tr>
+
+<!-- (f.china = 0 && @doeschinadisplay) || (f.china = 1)) -->
+
+<% @fooditems.order("price2 desc").each do |f| %>
+  <tr>
+  	<!--<% unless (f.china == 0 && !@doeschinadisplay) || (!f.show)  %>-->
+	<td><%= f.id %></th>
+	<td><%= f.company %></td>
+	<td class="td-phone"><%=  f.updated_at %></td>
+    <td><%=  f.item %></td>
+	<td><%=  f.price2.to_s.split('.').last.size <= 1 ? "$" + f.price2.to_s + "0" : "$" + f.price2.to_s %></td>
+	<td class="td-phone"><%=  f.category %></td>
+	<td class="td-phone"><%=  f.subcategory %></td>
+	<td><%= form.number_field "add_to_cart"+f.id.to_s, multiple: true, style:"width:75px;" %></td>
+	<td><%= button_to '+', '/test', params:{plus_one: f.id, sort:session[:current_sort], flag: true}, multiple: true, method: :get, class:"btn-primary"%></td>
+	<%end %>
+  </tr>
+ <!-- <% end %> -->
+
+  </table>
+  <br/>
+	<div>
+	<%= form.submit 'Add to cart', name: nil, class:"btn-primary"%>
+	<% end %>
+	</div>
+
+
+<%= request.query_parameters %>
+
+
+<% end %>
+
+

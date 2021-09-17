@@ -1,0 +1,129 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+<!-- sans serif -->
+
+
+td {
+  text-align: center;
+  font-family:arial;
+  
+}
+
+table {
+  border-spacing: 10px;
+  font-family:arial;
+  padding-left:10px;
+  padding-right:10px;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+
+.text-field{
+  width:75px;
+
+}
+
+.hide{
+	display: none
+}
+@media only screen and (max-width:480px){
+ body{
+  zoom:40%;
+
+ }
+ .mobile-checkbox{
+   width:50px;
+   height:50px;
+ }
+ .text-field{
+   width: 150px;
+
+ }
+}
+</style>
+<% content_for :content do %>
+
+<div class="jumbotron text-center" style="position:fixed; width: 100%;">
+   <h1>Items In Database</h1>
+</div>
+<br/>
+<div class="non-display">
+</div>
+<%= form_with url: '/modify', method: :get do |form| %>
+<table class="center">
+<tr>
+<th>Fruit</th>
+<th>On Display</th>
+<th>Toggle Display</th>
+<th>Remove Item</th>
+<th>Modify Price</th> 
+<th>Stock </th>
+<th>Category</th>
+<th>Subcategory</th>
+</tr>
+<% @fooditems.order("price2 desc").each do |f| %>
+  <tr>
+    <td><%= f.item %></td>
+	<td><%= f.show ? ("Yes") : "No" %></td>
+	<td> <%= form.check_box :show, {multiple: true,  class:"button-sizing"}, checked_value = "#{f.id}", nil %> </td>
+	<td> <%= form.check_box :delete, {multiple: true, checked: false, class:"button-sizing"}, checked_value = "#{f.id}", nil %> </td>
+	<td> <%= form.text_field "change_price"+f.id.to_s, multiple: true, placeholder: f.price2.to_s.split('.').last.size <= 1 ? + f.price2.to_s + "0" : f.price2.to_s, style:"width:75px;" %> </td>
+	<td> <%= form.text_field "stock"+f.id.to_s, multiple: true, placeholder: "#{f.count}", style:"width:75px;" %> </td>
+    <td> <%= form.select "categoryy"+f.id.to_s, options_for_select([["Fruit","Fruit"],["Vegetable","Vegetable"],["Other","Other"]], f.category), {multiple: true} %> </td>
+
+
+	<% if f.category == "Fruit" %>
+	<td> <%= form.select "subcategory"+f.id.to_s, options_for_select([["Fruit", "Fruit"],["Juice", "Juice"],["Other", "Other"]], f.subcategory), multiple: true %> </td>
+	<% elsif f.category == "Vegetable" %>
+	<td> <%= form.select "subcategory"+f.id.to_s, options_for_select([["Root"],["Legume"],["Other"]], f.subcategory), multiple: true %> </td>
+	<% elsif f.category == "Other" %>
+	<td> <%= form.select "subcategory"+f.id.to_s, options_for_select([["Fish"],["Drink"],["Cookie"]], f.subcategory), multiple: true %> </td>
+	<% end %> 
+  </tr>
+ <% end %> 
+
+</table>
+<br/>
+ <div>
+ <% unless @foodincart == nil %>
+ <%= form.submit "Submit Changes", class:"btn-primary"  %>
+ </div>
+ <% end %>
+<% end %>
+<br></br>
+<div>
+<%= form_tag '/import_food_items', multipart: true do %>
+	<%= file_field_tag :file %>
+	<%= submit_tag "Import Food Items", class:"btn-primary" %>
+<% end %>
+</div>
+<br></br>
+
+
+  
+<div>
+<%= button_to "Back", '/landing_screen_modify', method: :get, class:"btn-primary"%>
+</div>
+
+
+<div class="non-display">
+</div>
+<div class="non-display">
+</div>
+<% end %>
+
+
+
+<nav class="navbar navbar-dark navbar-expand-md" style=" position:fixed; bottom:0; width: 100%;">
+    <div class="container">
+		</button> <%= link_to "Home", root_path, class: 'navbar-brand' %>
+		</button><%= link_to 'Cart(' + @num_items_in_cart.to_s + ')', '/cart', params:{sort:session[:current_sort]},class: 'navbar-brand' %>
+		</button><%= link_to 'Checkout', "/checkout", class: 'navbar-brand' %>
+		</button><%= link_to 'Help', '/faq', class: 'navbar-brand' %>
+		</button><%= link_to 'Logout', '/logout', class: 'navbar-brand' %>
+
+    </div>
+</nav>

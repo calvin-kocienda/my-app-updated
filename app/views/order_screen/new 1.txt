@@ -1,0 +1,81 @@
+<style>
+body{
+
+	font-family:arial;
+}
+</style>
+
+
+<% content_for :content do %>
+<div class="content1" >
+<h1 align=center>Sign Up</h1>
+<img src = "https://www.teraneo.eu/sites/teraneo.eu/files/styles/large/public/field/news/image/fruits_union_0.jpg?itok=iZS7DfQI" alt="fruitsunion",style:"width:300px; height=225px;">
+</div>
+<div id="container_for_signup">
+<div id="num1">
+<%= form_for @user do |f| %>
+  <%= f.label :username%> <br>
+  <%= f.text_field :username%><br>
+  <%= f.label :password%><br>
+  <%= f.password_field :password%><br><br>
+  What company is this user affiliated with? <br />
+  <%= f.text_field :companyname %><br /><br />
+
+</div>
+
+
+  <div id="num2">
+     <%= f.submit :Submit, class: 'btn-large'%>
+   <%end%>
+   <br></br>
+   <%= button_to "  Back   ", '/welcome', method: :get, class: "btn-large"%>
+ </div>
+
+
+</div>
+
+
+
+
+
+<br></br>
+
+<% end %>
+
+
+
+
+
+<nav class="navbar navbar-dark  navbar-expand-md" style="position:fixed; width: 100%;">
+	
+    <div class="container">
+	<h1 style="color:white; ">Sort By:</h1>
+		<%= form_tag('/search', method: :get) %>
+			<%= search_field_tag :Search, params[:search], placeholder: "Search" %>
+			<%= button_tag "", class: "btn btn-info glyphicon glyphicon-search", name: nil %>
+		<% end %>
+        </button> <%= link_to "All", "#{'/order_screen'}?sort=All", class: 'navbar-brand' %>
+		</button><%= link_to 'Fruit', "#{'/order_screen'}?sort=Fruit", class: 'navbar-brand' %>
+        </button><%= link_to 'Vegetable', "#{'/order_screen'}?sort=Vegetable", class: 'navbar-brand' %>
+		</button><%= link_to 'Other', "#{'/order_screen'}?sort=Other", class: 'navbar-brand' %>
+    </div>
+</nav>
+
+
+
+
+<div class="non-display">
+</div>
+
+<h2 align=center>Select From Company</h2>
+<div>
+<%= form_with url: '/order_screen', method: :get do |ff| %>
+	<%= ff.select :company_name, options_for_select(@company_menu_items, params[:company_name]) %>
+	<%= ff.submit :Submit, class: 'btn-primary'%>
+
+<% end %>
+</div>
+
+    <%= ff.select :company_name, options_for_select(@companynames), selected: "selected" %>
+	
+	        </button> <%= link_to "All", "#{'/order_screen'}?sort=All", class: 'navbar-brand' %>

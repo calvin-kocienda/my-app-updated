@@ -1,0 +1,117 @@
+
+<style>
+
+<!-- sans serif -->
+
+td {
+  text-align: center;
+  font-family:arial;
+}
+
+table {
+  border-spacing: 50px;
+  font-family:arial;
+}
+div {
+  text-align: center;
+  font-family:arial;
+}
+body{
+	font-family:arial;
+}
+
+.hide{
+	display: none
+}
+
+</style>
+
+<% content_for :content do %>
+<div class="jumbotron text-center">
+   <h1 align=center>All Orders For <%= @currentime.day %>/<%= @currentime.month %>/<%= @currentime.year %>:</h1> 
+</div>
+<br/>
+
+<div>
+<%= form_with url: '/past_orders_aggregate', method: :get do |ff| %>
+    <%= ff.collection_select :company_name, @companies, :companyname, :companyname, prompt:false, selected: session[:aggregate_company_name] %>
+	<%= ff.submit :Submit, class: 'btn-primary'%>
+
+<% end %>
+</div>
+
+<table class="center">
+<tr>
+
+<th>Company Name</th>
+<th>Item Name</th>
+<th>Count</th>
+<th>Damaged Item</th>
+<th>Explanation</th>
+
+</tr>
+
+
+
+
+
+<% @past_orders_aggregate.order("companyname").each do |f| %>
+
+	<% unless f.updated_at.day != @currentime.day || f.updated_at.month != @currentime.month || f.updated_at.year != @currentime.year %>
+  <tr>
+    <td><%= f.companyname %></td>
+	<td><%= f.itemname %></td>
+	<td><%= f.itemcount %></td>
+	<% if f.damage_report.attached? %>
+		<td><%= button_to 'View Damaged Item', "/past_orders_aggregate/damage_report/#{f.id}", method: :get, class:"btn-primary" %></td>
+	<% else %>
+		<td>None</td>
+	<% end %>
+	<% if f.explanation.attached? %>
+		<td><%= button_to 'View Explanation', "/past_orders_aggregate/explanation/#{f.id}", method: :get, class:"btn-primary" %></td>
+	<% else %>
+		<td>None</td>
+	<% end %>
+  </tr>
+  <% end %>
+  <% end %>
+
+</table>
+
+<br></br>
+
+<div>
+<%= button_to 'Download All Orders', export_aggregate_csv_path(format: "csv"), method: :get, class:"btn-primary" %>
+</div>
+<br/>
+<div>
+<%= form_tag '/import', multipart: true do %>
+	<%= file_field_tag :file %>
+	<%= submit_tag "Import_CSV", class:"btn-primary" %>
+<% end %>
+</div>
+<br/>
+<div>
+<%= button_to "Back", '/order_screen', params:{sort:session[:current_sort]}, method: :get, class:"btn-primary"%>
+</div>
+
+
+
+<% end %>
+
+
+<div class="non-display">
+</div>
+<div class="non-display">
+</div>
+
+<nav class="navbar navbar-dark navbar-expand-md" style=" position:fixed; bottom:0; width: 100%;">
+    <div class="container">
+		</button> <%= link_to "Home", root_path, class: 'navbar-brand' %>
+		</button><%= link_to 'Cart(' + @num_items_in_cart.to_s + ')', '/cart', params:{sort:session[:current_sort]},class: 'navbar-brand' %>
+		</button><%= link_to 'Checkout', "/checkout", class: 'navbar-brand' %>
+		</button><%= link_to 'Help', '/faq', class: 'navbar-brand' %>
+		</button><%= link_to 'Logout', '/logout', class: 'navbar-brand' %>
+
+    </div>
+</nav>
